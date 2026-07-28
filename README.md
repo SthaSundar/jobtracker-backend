@@ -2,7 +2,7 @@
 
 REST API for a personal job application tracker — built with Django REST Framework, JWT auth, and MySQL.
 
-**Frontend repo:** _(coming soon)_
+**Frontend repo:** [jobtracker-frontend](https://github.com/SthaSundar/jobtracker-frontend)
 
 ## Tech Stack
 - Django 6.0 + Django REST Framework
