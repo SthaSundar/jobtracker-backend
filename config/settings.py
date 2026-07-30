@@ -33,7 +33,21 @@ CORS_ALLOWED_ORIGINS = config(
     default='http://localhost:5173',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
+CSRF_TRUSTED_ORIGINS = config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='',
+    cast=lambda v: [s.strip() for s in v.split(',')] if v else []
+)
 
+RENDER_EXTERNAL_HOSTNAME = config('RENDER_EXTERNAL_HOSTNAME', default='')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
+
+# Render (and most PaaS providers) terminate HTTPS at a proxy/load balancer
+# and forward plain HTTP internally. This tells Django to trust the
+# X-Forwarded-Proto header so it correctly knows the original request was HTTPS.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 
@@ -51,8 +65,6 @@ INSTALLED_APPS = [
     'applications',
     'accounts',
     'drf_spectacular',
-   
-
 ]
 
 MIDDLEWARE = [
@@ -65,10 +77,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
 ]
-
-
 
 
 REST_FRAMEWORK = {
@@ -114,26 +123,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-import dj_database_url
-
 if config('DATABASE_URL', default=''):
     DATABASES = {
         'default': dj_database_url.config(default=config('DATABASE_URL'))
     }
 else:
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
-        'OPTIONS': {
-            'ssl': {'ca': BASE_DIR / 'ca.pem'},
-        },
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT'),
+            'OPTIONS': {
+                'ssl': {'ca': BASE_DIR / 'ca.pem'},
+            },
+        }
     }
-}
 
 
 # Password validation
