@@ -3,8 +3,9 @@
 REST API for a personal job application tracker — built with Django REST Framework, JWT auth, and MySQL.
 
 **Frontend repo:** [jobtracker-frontend](https://github.com/SthaSundar/jobtracker-frontend)
-**🔗 Live API:** [jobtracker-backend-qv7a.onrender.com](https://jobtracker-backend-qv7a.onrender.com)
-**📄 Interactive API docs (Swagger):** [jobtracker-backend-qv7a.onrender.com/api/docs/](https://jobtracker-backend-qv7a.onrender.com/api/docs/)
+**🔗 Live API docs (Swagger):** [jobtracker-backend-qv7a.onrender.com/api/docs/](https://jobtracker-backend-qv7a.onrender.com/api/docs/)
+
+> This is an API-only backend — visiting the bare domain (`/`) returns a 404, since there's no root route defined. Use `/api/docs/` for the interactive Swagger UI, or `/admin/` for the Django admin panel.
 
 ## Tech Stack
 - Django 6.0 + Django REST Framework
@@ -26,7 +27,7 @@ REST API for a personal job application tracker — built with Django REST Frame
 
 | | |
 |---|---|
-| **API** | [jobtracker-backend-qv7a.onrender.com](https://jobtracker-backend-qv7a.onrender.com) (Render, free tier) |
+| **API docs (Swagger)** | [jobtracker-backend-qv7a.onrender.com/api/docs/](https://jobtracker-backend-qv7a.onrender.com/api/docs/) (Render, free tier) |
 | **Database** | MySQL 8.4 on [Aiven](https://aiven.io) (free tier), SSL-required connection |
 | **Frontend** | [jobtracker-frontend-one.vercel.app](https://jobtracker-frontend-one.vercel.app) (Vercel) |
 
